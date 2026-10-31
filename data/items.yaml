@@ -1,0 +1,73 @@
+# 一批真实待生产的图文素材：6 条，覆盖正常 / 图片过小 / 比例偏差 / 无图占位
+items:
+  - id: item_001
+    title: 春季新品上市
+    subtitle: 轻量 · 透气 · 三色可选
+    body: 这是一段正文，描述产品的核心卖点与适用场景，面向春季通勤与户外使用。
+    bullets:
+      - 三层透气网布
+      - 单只 180g
+      - 三色可选
+    image: assets/images/hero_01.png
+    image_prompt: 纯白背景，产品居中，柔和侧光
+    tags: [promo, spring]
+
+  - id: item_002
+    title: 城市低空巡查无人机焕新登场
+    subtitle: 续航 55 分钟 · 自动机巢回充
+    body: 面向城市管理与应急场景，支持航线复飞、实时回传与异常事件自动标注。
+    bullets:
+      - 双光吊舱
+      - 自动机场
+      - 航线复飞
+    image: assets/images/hero_02.png
+    image_prompt: 城市天际线背景，无人机悬停，晨光
+    tags: [inspection, drone]
+
+  - id: item_003
+    title: 政务巡检智能体全面升级发布
+    subtitle: 工单自动生成 · 处置闭环留痕
+    body: 巡检发现的问题自动生成工单，按部门分派，处置结果回填后形成完整台账。
+    bullets:
+      - 工单自动生成
+      - 多部门分派
+      - 全流程留痕
+    image: assets/images/hero_03.png
+    image_prompt: 政务大厅背景，数据看板，冷色调
+    tags: [agent, gov]
+
+  - id: item_004
+    title: 园区安防巡检套餐上新
+    subtitle: 周界 · 消防 · 人员三合一
+    body: 一套套餐覆盖周界入侵、消防通道占用、人员聚集三类高频告警。
+    bullets:
+      - 周界入侵识别
+      - 消防通道占用
+      - 人员聚集告警
+    image: assets/images/small.png
+    image_prompt: 园区俯视图，夜间灯光，低照度
+    tags: [security]
+
+  - id: item_005
+    title: 制造车间视觉质检方案
+    subtitle: 缺陷识别 · 尺寸复核 · 良率看板
+    body: 产线末端部署视觉工位，缺陷识别与尺寸复核同步完成，良率实时上屏。
+    bullets:
+      - 缺陷分类
+      - 尺寸复核
+      - 良率看板
+    image: assets/images/wide.png
+    image_prompt: 产线特写，机械臂，金属反光
+    tags: [quality, factory]
+
+  - id: item_006
+    title: 全域巡检作业标准发布
+    subtitle: 航线 · 高度 · 采样一次讲清
+    body: 统一航线规划、飞行高度与采样要求，让不同班组产出的数据可以直接对比。
+    bullets:
+      - 统一航线模板
+      - 飞行高度分层
+      - 采样标准一致
+    image: ""
+    image_prompt: 低空视角，田野与道路交汇
+    tags: [standard]

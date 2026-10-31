@@ -1,0 +1,7 @@
+# Runtime and test dependencies (Python 3.11+)
+pillow==13.0.0
+PyYAML==6.0.3
+pydantic==2.14.2
+fastapi==0.162.0
+uvicorn==0.54.0
+pytest==9.2.0

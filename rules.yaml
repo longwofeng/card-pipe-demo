@@ -1,0 +1,13 @@
+limits:
+  title_chars: 18
+  subtitle_chars: 24
+  body_chars: 120
+  bullets_max: 4
+image:
+  min_width: 800
+  min_height: 800
+  ratio_tolerance: 0.15
+on_violation: report        # report | truncate | fail
+output:
+  png_dpi: 144
+  pdf: true

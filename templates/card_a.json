@@ -1,0 +1,14 @@
+{
+  "canvas": { "width": 1080, "height": 1440, "background": "#FFFFFF" },
+  "slots": [
+    { "type": "text",  "name": "title",    "x": 80, "y": 120,  "w": 920, "h": 200,
+      "font_size": 64, "line_height": 1.25, "color": "#111111", "max_lines": 2, "align": "left" },
+    { "type": "text",  "name": "subtitle", "x": 80, "y": 340,  "w": 920, "h": 80,
+      "font_size": 34, "line_height": 1.3,  "color": "#666666", "max_lines": 1, "align": "left" },
+    { "type": "image", "name": "hero",     "x": 80, "y": 460,  "w": 920, "h": 720,
+      "fit": "cover", "radius": 24 },
+    { "type": "text",  "name": "bullets",  "x": 80, "y": 1210, "w": 920, "h": 160,
+      "font_size": 30, "line_height": 1.4, "color": "#222222", "max_lines": 4, "align": "left",
+      "prefix": "· " }
+  ]
+}
