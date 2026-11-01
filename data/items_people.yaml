@@ -1,0 +1,61 @@
+# 人物卡素材：虚构人设 + 自制插画（来源见 assets/images/people/SOURCES.md）
+items:
+  - id: person_001
+    title: 林晚晴
+    subtitle: 社区巡检负责人
+    body: 负责 3 个街道的日常巡查排班与工单闭环，累计带队巡检 210 架次。
+    bullets:
+      - 工单闭环
+      - 街道协同
+      - 应急值守
+    image: assets/images/people/p01.png
+    image_prompt: 中年女性，深色盘发，浅绿衬衫，柔和自然光，证件照风格
+    tags: [people, ops]
+
+  - id: person_002
+    title: 陈北
+    subtitle: 持证飞手
+    body: 主飞多旋翼与复合翼机型，负责复杂空域航线复核与飞行应急处置。
+    bullets:
+      - 多机型执照
+      - 航线复核
+      - 应急处置
+    image: assets/images/people/p02.png
+    image_prompt: 青年男性，安全帽，深蓝工装，户外自然光，证件照风格
+    tags: [people, pilot]
+
+  - id: person_003
+    title: 周砚
+    subtitle: 图像标注主管
+    body: 管理 12 人标注组，负责巡检影像的缺陷标注规范与抽检，月均处理 4 万帧。
+    bullets:
+      - 标注规范
+      - 质量抽检
+      - 产能排期
+    image: assets/images/people/p03.png
+    image_prompt: 男性，细框眼镜，咖啡色针织衫，室内柔光，证件照风格
+    tags: [people, data]
+
+  - id: person_004
+    title: 苏禾
+    subtitle: 夜班值守调度
+    body: 负责零点至八点的告警分派与升级，平均响应 90 秒，夜班在岗 46 个月。
+    bullets:
+      - 告警分派
+      - 升级处置
+      - 夜班值守
+    image: assets/images/people/p04.png
+    image_prompt: 青年女性，黑色长发，紫色外套，夜间值守场景
+    tags: [people, night]
+
+  - id: person_005
+    title: 城东巡检小组
+    subtitle: 团队合影 · 城东片区
+    body: 由 3 名飞手与 2 名数据分析员组成，覆盖城东 18 平方公里巡查网格。
+    bullets:
+      - 3 名飞手
+      - 2 名数据分析
+      - 18 平方公里网格
+    image: assets/images/people/group.png
+    image_prompt: 三人团队合影，浅色背景，自然站姿
+    tags: [people, team]

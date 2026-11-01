@@ -1,0 +1,16 @@
+{
+  "canvas": { "width": 1080, "height": 1440, "background": "#F7F5F2" },
+  "slots": [
+    { "type": "image", "name": "portrait", "x": 72, "y": 120, "w": 560, "h": 740,
+      "fit": "cover", "radius": 28 },
+    { "type": "text", "name": "title",    "x": 672, "y": 120, "w": 336, "h": 150,
+      "font_size": 56, "line_height": 1.15, "color": "#141414", "max_lines": 2, "align": "left" },
+    { "type": "text", "name": "subtitle", "x": 672, "y": 286, "w": 336, "h": 60,
+      "font_size": 28, "line_height": 1.3,  "color": "#8A6A3B", "max_lines": 1, "align": "left" },
+    { "type": "text", "name": "body",     "x": 672, "y": 368, "w": 336, "h": 430,
+      "font_size": 26, "line_height": 1.55, "color": "#444444", "max_lines": 10, "align": "left" },
+    { "type": "text", "name": "bullets",  "x": 72, "y": 930, "w": 936, "h": 280,
+      "font_size": 30, "line_height": 1.5, "color": "#222222", "max_lines": 6, "align": "left",
+      "prefix": "· " }
+  ]
+}

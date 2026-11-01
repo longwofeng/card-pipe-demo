@@ -14,8 +14,8 @@
 | 1 | `pip install -r requirements.txt` 在干净 venv 里成功 | 通过 | §2.1，全新 `.venv_dod` 安装成功 |
 | 2 | `build` 退出码 0，产出 PNG + PDF + report.json + manifest.csv | 通过 | §2.2，6 张 PNG + `batch.pdf` + 2 份清单 |
 | 3 | `demo --out out/acceptance` 输出 PASS | 通过 | §2.3，5 项 PASS 全部满足 |
-| 4 | `selfcheck` 全项 OK | 通过 | §2.4，7/7 项 OK |
-| 5 | `pytest -q` 全绿 | 通过 | §2.5，26 passed |
+| 4 | `selfcheck` 全项 OK | 通过 | §2.4，8/8 项 OK |
+| 5 | `pytest -q` 全绿 | 通过 | §2.5，35 passed |
 | 6 | 断网状态下 `local` 模式可跑通 | 通过 | §2.6，死代理下仍 exit 0（local 全程无网络调用） |
 | 7 | 删除字体后退出码 3 且提示明确 | 通过 | §2.7，exit 3 + 中文提示，字体已还原 |
 | 8 | README 命令逐条可执行 | 通过（Docker 两条除外，见 §6） | §2.1–§2.4、§3 |
@@ -38,7 +38,7 @@ typing-extensions typing-inspection uvicorn
 install exit=0
 ```
 
-在同一个干净 venv 内复跑了 `selfcheck`（7/7 OK）、`build`（exit 0）、`pytest`（26 passed）；两套 venv 结果一致，正文引用的是 `.venv` 的最终一次输出。
+在同一个干净 venv 内复跑了 `selfcheck`（8/8 OK）、`build`（exit 0）、`pytest`（35 passed）；两套 venv 结果一致，正文引用的是 `.venv` 的最终一次输出。
 
 ### 2.2 build（README §2 的命令）
 
@@ -133,9 +133,10 @@ python -m app.cli selfcheck
   [OK] 样例数据 data\items.yaml —— 6 条，id 唯一
   [OK] 模板 templates\card_a.json —— 1080x1440，文字槽位 3，图片槽位 1
   [OK] 规则 rules.yaml —— on_violation=report，png_dpi=144，pdf=True
+  [OK] 人物素材授权登记 —— 5 张图已登记（自制或已授权）
   [OK] 输出目录可写 out/ —— 创建与删除探针文件成功
 
-自检通过：7 项全部 OK
+自检通过：8 项全部 OK
 ```
 
 ### 2.5 pytest
@@ -145,11 +146,11 @@ pytest -q
 ```
 
 ```
-..........................                                               [100%]
-26 passed in 22.32s
+...................................                                      [100%]
+35 passed in 16.14s
 ```
 
-耗时随机器负载波动，上表为本次验收实测值。覆盖：规则边界（18/19 字、比例恰好等于容差/超容差）、三种 on_violation、中文非空白、画布尺寸、PDF 页尺寸、mock provider、缺字体退出码、demo PASS + diff、两次构建报告逐字段一致（除 ms）。
+耗时随机器负载波动，上表为本次验收实测值。覆盖：规则边界（18/19 字、比例恰好等于容差/超容差）、三种 on_violation、中文非空白、画布尺寸、PDF 页尺寸、mock provider、缺字体退出码、demo PASS + diff、两次构建报告逐字段一致（除 ms）、人物素材替换与授权登记。
 
 ### 2.6 断网 / local 模式
 
@@ -206,6 +207,10 @@ exit=3
 | 清单 | `out/demo1/manifest.csv` | 每行一条成品与 issue 数 |
 | 规则 diff | `out/acceptance/report_diff.md` | `title_too_long` 0 → 2 |
 | truncate 成品 | `out/truncate_demo/item_002.png` | 标题末尾出现 `…` |
+| 人物卡 | `out/people/person_001.png` | 3:4 人像进竖槽，头部完整、圆角生效 |
+| 横图塞竖槽 | `out/people/person_005.png` | 只保留中间一人，报告给出 `image_ratio_off` |
+| 人物联系表 | `out/people/contact_sheet.png` | 5 张成品一张图看完，便于转发 |
+| 人像塞产品模板（对照） | `out/people_into_card_a/contact_sheet.png` | 5 条全报 image_ratio_off，人像被裁掉工牌与肩线 |
 
 ## 4. 补充验证（DoD 之外，用于说明能力边界）
 
@@ -243,19 +248,24 @@ python -m app.cli build --items data/items.yaml --template templates/card_a.json
 
 `tests/test_determinism.py` 两次独立构建到不同目录（batch 同名），`report.json` 去掉 `ms` 后逐字段相等，issue 顺序也一致。PNG 本身同样可复现（同输入两次构建字节一致）。
 
+### 4.4 图像侧（人物素材替换）
+
+单独做了一轮人像验证：自制虚构人物插画 + 新人物模板 `templates/card_person.json` + `data/items_people.yaml`，5 条素材产出 5 张 PNG + PDF。其中 480x640 低分辨率与 1600x900 横版合影分别被 `image_too_small` / `image_ratio_off` 拦下；对照实验把同一批人像塞进原产品模板，5 条全部报 `image_ratio_off`。素材来源登记在 `assets/images/people/SOURCES.md`，`selfcheck` 会校验未登记文件。详见 `IMAGE_DEMO.md`，导出物在 `out/people/`。
+
 ## 5. 文件清单
 
 ```
 app/__init__.py  models.py  materials.py  render.py  rules.py  report.py  cli.py  api.py
-templates/card_a.json
-data/items.yaml
+templates/card_a.json  templates/card_person.json
+data/items.yaml  data/items_people.yaml
 rules.yaml
 assets/fonts/NotoSansSC-Regular.ttf  assets/fonts/NOTICE.txt
 assets/images/hero_01.png hero_02.png hero_03.png wide.png small.png
-scripts/make_assets.py
-tests/conftest.py test_rules.py test_render.py test_cli.py test_demo.py test_determinism.py
+assets/images/people/p01.png p02.png p03.png p04.png group.png SOURCES.md
+scripts/make_assets.py  scripts/make_people.py  scripts/contact_sheet.py
+tests/conftest.py test_rules.py test_render.py test_cli.py test_demo.py test_determinism.py test_image_swap.py test_photo_inputs.py
 Dockerfile  .dockerignore  requirements.txt  pytest.ini  .gitignore
-README.md  ACCEPTANCE.md
+README.md  ACCEPTANCE.md  IMAGE_DEMO.md
 ```
 
 ## 6. 未执行项与边界（如实说明）
@@ -263,11 +273,17 @@ README.md  ACCEPTANCE.md
 1. **Docker 构建未执行**：本机有 `docker` CLI（29.8.2），但没有 Docker Desktop/daemon（`C:\Program Files\Docker\Docker\Docker Desktop.exe` 不存在，`docker info` 报 `npipe:////./pipe/dockerDesktopLinuxEngine` 找不到）。因此 `docker build -t cardpipe .` 与 `docker run ...` 未在本机跑过。Dockerfile 按 HARNESS §9 写：`python:3.11-slim` + 随镜像 COPY 字体 + `ENTRYPOINT ["python","-m","app.cli"]`，`CMD` 默认执行 `demo`。
 2. **Python 3.11 未实机运行**：本机只有 3.12.0（满足 3.11+）。代码未使用 3.12 专有语法（已扫描 f-string 引号复用等），Docker 基础镜像固定 `3.11-slim`。
 3. **字体许可**：字体为系统内 Noto Sans SC 变量字体在 `wght=400` 的静态实例，版权与 OFL 1.1 声明取自字体 name 表，见 `assets/fonts/NOTICE.txt`；对外分发时请随包附上 OFL 全文。
-4. `assets/images` 下 5 张图为本地脚本 `scripts/make_assets.py` 生成的抽象素材，未使用任何网络图片。
+4. `assets/images` 下 5 张产品素材由 `scripts/make_assets.py` 生成，5 张人物素材由 `scripts/make_people.py` 生成；均为本地绘制，未使用任何网络图片或真实人物照片。
 
 ## 7. 结论
 
-HARNESS_PROMPT.md §11 的 8 条 DoD 中 7 条完全通过；第 8 条（README 命令）除 Docker 构建/运行（本机无 daemon，见 §6）外，其余命令全部实跑通过。`python -m app.cli demo --out out/acceptance` 输出 **PASS**。
+HARNESS_PROMPT.md §11 的 8 条 DoD 中 7 条完全通过；第 8 条（README 命令）除 Docker 构建/运行（本机无 daemon，见 §6）外，其余命令全部实跑通过。`python -m app.cli demo --out out/acceptance` 输出 **PASS**。图像侧另有独立验证（人物素材替换 + 授权登记），见 §4.4 与 `IMAGE_DEMO.md`。
+
+
+
+
+
+
 
 
 

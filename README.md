@@ -216,3 +216,24 @@ docker run --rm -v %cd%/out:/app/out cardpipe
 - [ ] `pytest` 全绿；`app.cli demo` 输出 PASS
 - [ ] README 里的命令可以逐条复制执行
 
+---
+
+## 13. 人物卡（图像侧）
+
+人物素材不另起管线，只加一个模板 + 一个数据文件：
+
+```
+python scripts/make_people.py
+python -m app.cli build --items data/items_people.yaml --template templates/card_person.json --rules rules.yaml --out out/people
+python scripts/contact_sheet.py out/people --out out/people/contact_sheet.png
+```
+
+- 模板 `templates/card_person.json`：画布 1080×1440，`portrait` 图片槽 560×740（3:4，cover + 圆角 28），右侧 `title/subtitle/body`，底部 `bullets`
+- 数据 `data/items_people.yaml`：5 条，其中 `person_004`（480×640）故意低分辨率、`person_005`（1600×900）为横版合影，用来触发 `image_too_small` / `image_ratio_off`
+- 素材：`assets/images/people/`，全部由 `scripts/make_people.py` 本地绘制（虚构人物），逐张登记在 `assets/images/people/SOURCES.md`
+- 授权闸门：目录里出现未登记图片时，`python -m app.cli selfcheck` 直接判 FAIL
+- 对照实验：同一批人像塞进 `templates/card_a.json`（图片槽 920×720 横版），5 条全部报 `image_ratio_off`——换素材要连带换模板，规则会先把问题指出来
+- 换成真实照片时：必须有书面授权并登记授权方/范围/期限；建议 3:4 竖版、短边 ≥800px
+
+完整说明见 `IMAGE_DEMO.md`。
+

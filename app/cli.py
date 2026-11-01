@@ -341,6 +341,25 @@ def _ink_ratio(font, text: str = "低空政务巡查智能体") -> float:
     return inked / total
 
 
+def _asset_provenance() -> tuple[bool, str, str]:
+    """人物素材授权登记：目录里每张图都必须在 SOURCES.md 里登记。"""
+    people_dir = ROOT / "assets" / "images" / "people"
+    if not people_dir.is_dir():
+        return True, "人物素材授权登记", "未启用人物素材目录，跳过"
+    manifest = people_dir / "SOURCES.md"
+    suffixes = {".png", ".jpg", ".jpeg", ".webp"}
+    files = sorted(path.name for path in people_dir.iterdir() if path.suffix.lower() in suffixes)
+    if not files:
+        return True, "人物素材授权登记", "目录为空，跳过"
+    if not manifest.is_file():
+        return False, "人物素材授权登记", f"缺少 {manifest.name}"
+    text = manifest.read_text(encoding="utf-8")
+    missing = [name for name in files if name not in text]
+    if missing:
+        return False, "人物素材授权登记", f"未登记来源：{', '.join(missing)}"
+    return True, "人物素材授权登记", f"{len(files)} 张图已登记（自制或已授权）"
+
+
 def cmd_selfcheck(args: argparse.Namespace) -> int:
     checks: list[tuple[bool, str, str]] = []
 
@@ -382,6 +401,9 @@ def cmd_selfcheck(args: argparse.Namespace) -> int:
         add(True, f"规则 {DEFAULT_RULES.relative_to(ROOT)}", f"on_violation={rule.on_violation}，png_dpi={rule.output.png_dpi}，pdf={rule.output.pdf}")
     except (RuleLoadError, OSError) as exc:
         add(False, f"规则 {DEFAULT_RULES.relative_to(ROOT)}", str(exc))
+
+    provenance_ok, provenance_label, provenance_detail = _asset_provenance()
+    add(provenance_ok, provenance_label, provenance_detail)
 
     probe_dir = ROOT / "out" / ".selfcheck"
     try:
@@ -456,6 +478,7 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
 
 
 
